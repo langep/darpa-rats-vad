@@ -46,7 +46,7 @@ copy_from_existing_experiment() {
 		else
 			cp $origin/$file $file
 			if [ $file == "path.sh" ]; then
-				sed -i '' "s,export KALDI_ROOT=\`pwd\`/../../..,export KALDI_ROOT=$KALDI_ROOT," $file
+				sed -i "s,export KALDI_ROOT=\`pwd\`/../../..,export KALDI_ROOT=$KALDI_ROOT," $file
 			fi
 		fi
 	done
