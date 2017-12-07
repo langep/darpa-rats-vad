@@ -1,5 +1,5 @@
 cmd.sh
 path.sh
-sid/
-steps/
-utils/
+sid
+steps
+utils
