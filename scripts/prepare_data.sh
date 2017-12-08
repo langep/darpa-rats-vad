@@ -29,19 +29,20 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	local_data=data
 	local_train=data/train
 	for channel in A B C D E F G H src; do
-		# make the directories for holding the snippets
+		( # Run each channel in a background task to speed up the work.
+
+		# Make the directories for each class
 		for class in NS NT S RX; do 
 			mkdir -p $local_train/$channel/$class
 		done
-		# make the snippets for each channel
 		for audiofile in $train_audio/$channel/*.flac; do
-			echo -n $audiofile"..."
 			name=$(basename $audiofile)
 			name_wo_ext=${name%.*} # non-greedy removal from end
 			tabfile=$train_tab/$channel/$name_wo_ext.tab
 			bash $SCRIPT_DIR/clip_helper.sh $audiofile $tabfile $local_train/$channel
-			echo "done."
+			echo "$audiofile done" # Progress indicator
 		done
+		) &
 	done
 
 fi
