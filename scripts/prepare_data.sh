@@ -30,7 +30,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	local_train=data/train
 	for channel in A B C D E F G H src; do
 		# make the directories for holding the snippets
-		for class in NS NT S; do 
+		for class in NS NT S RX; do 
 			mkdir -p $local_train/$channel/$class
 		done
 		# make the snippets for each channel
