@@ -35,10 +35,12 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 		done
 		# make the snippets for each channel
 		for audiofile in $train_audio/$channel/*.flac; do
+			echo -n $audiofile"..."
 			name=$(basename $audiofile)
 			name_wo_ext=${name%.*} # non-greedy removal from end
 			tabfile=$train_tab/$channel/$name_wo_ext.tab
 			bash $SCRIPT_DIR/clip_helper.sh $audiofile $tabfile $local_train/$channel
+			echo "done."
 		done
 	done
 
