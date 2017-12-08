@@ -2,8 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Taken from https://dev.to/thiht/shell-scripts-matter 
-
 #/ Usage: bash inital_setup.sh KALDI_ROOT RATS_DATA
 #/ Description: Runs the initial experiment setup given a path 
 #/   to a working kaldi installation and the DARPA RATS data.
