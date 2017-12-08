@@ -23,14 +23,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	datadir=$(cat .data_dir)
 
-	# Prepare training data
-	/snippets
-	for class in NS NT S; do 
-		mkdir -p data/train/$class
-	done
-
 	# Split the training audio
-	 
 	train_audio=$datadir/train/audio/eng
 	train_tab=${datadir}/train/sad/eng
 	for channel in A B C D E F G H src; do
