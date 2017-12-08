@@ -4,7 +4,7 @@ set -euo pipefail
 # Use clip_helper.sh instead of calling this file directly.
 
 #/ Usage: bash clip.sh AUDIOFILE OUTDIR CLIPINFO
-#/ Description: Creates single snippet from AUDIOFILE into OUTDIR according to 
+#/ Description: Creates single snippet from AUDIOFILE into OUTDIR/<class> according to 
 #/ 	CLIPINFO. CLIPINFO is formated as "<start-time-sec>	<end-time-sec> <class>".
 #/ Note: Also converts the output into .wav snippets.
 #/ Examples: bash clip_helper.sh 10003_20706_alv_A.flac 10003_20706_alv_A.tab data/train/snippets
@@ -29,5 +29,5 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	# Determine clip filename
 	clip_name=$(basename $audiofile)"_"$class"_"${start_time//./-}".wav"
 
-	echo sox $audiofile $outdir/$clip_name trim $start_time =$end_time
+	sox $audiofile $outdir/$class/$clip_name trim $start_time =$end_time
 fi

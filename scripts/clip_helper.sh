@@ -4,8 +4,8 @@ IFS=$'\n\t'
 
 #/ Usage: bash clip_helper.sh AUDIOFILE TABFILE OUTDIR
 #/ Description: Creates snippets of AUDIOFILE for each segment in TABFILE
-#/ 	and stores them in OUTDIR.
-#/ Note: Also converts the output into .wav snippets.
+#/ 	and stores them in OUTDIR/class.
+#/ Note: Also converts the output into a .wav snippet.
 #/ Examples: bash clip_helper.sh 10003_20706_alv_A.flac 10003_20706_alv_A.tab data/train/snippets
 #/ Options:
 #/   --help: Display this help message
