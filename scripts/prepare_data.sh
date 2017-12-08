@@ -32,14 +32,11 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			mkdir -p data/train/$channel/$class
 		done
 		# make the snippets for each channel
-		for audiofile in $train_audio/$channel; do
+		for audiofile in $train_audio/$channel/*.flac; do
 			name=$(basename $audiofile)
 			name_wo_ext=${name%.*} # non-greedy removal from end
 			tabfile=$train_tab/$channel/$name_wo_ext.tab
-			echo $audiofile
-			echo $tabfile
-			echo $name_wo_ext
-			#bash $SCRIPT_DIR/clip_helper.sh $audiofile $tabfile $datadir/train/$channel
+			bash $SCRIPT_DIR/clip_helper.sh $audiofile $tabfile $datadir/train/$channel
 		done
 	done
 
