@@ -36,7 +36,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			name=$(basename $audiofile)
 			name_wo_ext=${name%.*} # non-greedy removal from end
 			tabfile=$train_tab/$channel/$name_wo_ext.tab
-			bash $SCRIPT_DIR/clip_helper.sh $audiofile $tabfile $data/train/$channel
+			bash $SCRIPT_DIR/clip_helper.sh $audiofile $tabfile $datadir/train/$channel
 		done
 	done
 
