@@ -22,17 +22,13 @@ locate_self() {
 if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	if [[ $# -ne 3 ]]; then
 		usage
-	else
-		audiofile=$1
-		tabfile=$2
-		outdir=$3
 	fi
+	audiofile=$1
+	tabfile=$2
+	outdir=$3
 
 	locate_self
 	cd $PARENT_DIR
-	
-	tabfile=10003_20706_alv_A.tab
-	audiofile=somefile
 
 	start_time_column=3
 	end_time_column=4
