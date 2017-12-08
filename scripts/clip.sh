@@ -27,7 +27,9 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	end_time=${args[1]}
 	class=${args[2]}
 	# Determine clip filename
-	clip_name=$(basename $audiofile)"_"$class"_"${start_time//./-}".wav"
+	name=$(basename $audiofile)
+	name_wo_ext=${name%.*}
+	clip_name=$name_wo_ext"_"$class"_"${start_time//./-}".wav"
 
 	sox $audiofile $outdir/$class/$clip_name trim $start_time =$end_time
 fi
