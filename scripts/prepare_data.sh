@@ -66,15 +66,15 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				fcounter=1
 				for file in $local_train/$channel/$class/*.wav; do
 					if [ $counter -ge 2000 ]; then 
-						$counter=0
-						$fcounter=$((fcounter+1))
+						counter=0
+						fcounter=$((fcounter+1))
 						sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.$fcounter.wav trim 0 0.1
 					fi
 
 					sox $local_train/$channel/$class.$fcounter.wav $file $local_train/$channel/_$class.$fcounter.wav
 					mv $local_train/$channel/_$class.$fcounter.wav $local_train/$channel/$class.$fcounter.wav
 					echo $file >> $local_train/$channel/$class.done
-					$counter=$((counter+1))
+					counter=$((counter+1))
 
 				done
 			done
