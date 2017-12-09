@@ -69,7 +69,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 						$counter=0
 						$fcounter=$((fcounter+1))
 						sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.$fcounter.wav trim 0 0.1
-					done
+					fi
 
 					sox $local_train/$channel/$class.$fcounter.wav $file $local_train/$channel/_$class.$fcounter.wav
 					mv $local_train/$channel/_$class.$fcounter.wav $local_train/$channel/$class.$fcounter.wav
