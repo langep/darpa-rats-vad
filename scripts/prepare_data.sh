@@ -65,7 +65,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				for file in $local_train/$channel/$class/*.wav; do
 					sox $local_train/$channel/$class.wav $file $local_train/$channel/_$class.wav
 					mv $local_train/$channel/_$class.wav $local_train/$channel/$class.wav
-					echo $file
+					echo $file >> $local_train/$channel/$class.done
 				done
 			done
 			) &
