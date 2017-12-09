@@ -61,11 +61,21 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			( # Run each channel in a background task to speed up the work
 			for class in $used_classes; do
 				# Start out with small amount of silence
-				sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.wav trim 0 0.1
+				sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.1.wav trim 0 0.1
+				counter=1
+				fcounter=1
 				for file in $local_train/$channel/$class/*.wav; do
-					sox $local_train/$channel/$class.wav $file $local_train/$channel/_$class.wav
-					mv $local_train/$channel/_$class.wav $local_train/$channel/$class.wav
+					if [ $counter -ge 2000 ]; then 
+						$counter=0
+						$fcounter=$((fcounter+1))
+						sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.$fcounter.wav trim 0 0.1
+					done
+
+					sox $local_train/$channel/$class.$fcounter.wav $file $local_train/$channel/_$class.$fcounter.wav
+					mv $local_train/$channel/_$class.$fcounter.wav $local_train/$channel/$class.$fcounter.wav
 					echo $file >> $local_train/$channel/$class.done
+					$counter=$((counter+1))
+
 				done
 			done
 			) &
