@@ -34,7 +34,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	used_classes="NS NT S"
 
 
-	if [ $stage -le 1 ]; then
+	if [ $stage -eq 1 ]; then
 		# Split the training audio into classes per channel
 
 		for channel in $channels; do
@@ -56,7 +56,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	fi
 
 	# Join all the snippets again into a few files per class per channel
-	if [ $stage -le 2 ]; then
+	if [ $stage -eq 2 ]; then
 		for channel in $channels; do
 			( # Run each channel in a background task to speed up the work
 			for class in $used_classes; do
@@ -89,8 +89,18 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 		done
 	fi
 
+	# Remove old snippets
+	if [ $stage -eq 3 ]; then
+		for channel in $channels; do
+			for class in $used_classes; do
+				rm -r $local_train/$channel/$class/
+				mkdir -p $local_train/$channel/$class/
+			done
+		done
+	fi
+
 	# Break down the files into 60 second snippets
-	if [ $stage -le 3 ]; then
+	if [ $stage -eq 4 ]; then
 		for channel in $channels; do
 			( # Run this in the background
 			for class in $used_classes; do
@@ -109,6 +119,31 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				done
 			done
 			) &
+		done
+	fi
+
+	if [ $stage -eq 5 ]; then
+		for channel in $channels; do
+			mkdir -p S/$channel NS/$channel 
+			if [ $channel != "G" && $channel != "src"]; then
+				mkdir -p NT/$channel
+			fi
+			for class in $used_classes; do
+				if [ $channel == "G" || $channel == "src" ] && [ $class = "NT" ]; then
+					continue
+				fi
+				basedir=`pwd`
+				for file in $local_train/$channel/$class/*.wav; do
+					name=$(basename $file)
+					name_wo_ext=${name%.*}
+					echo $name_wo_ext\t$basedir/$file >> $class/$channel/wav.scp1
+					echo $name_wo_ext\t$name_wo_ext >> $class/$channel/utt2spk1
+				done
+				cat $class/$channel/wav.scp1 | sort > $class/$channel/wav.scp
+				rm $class/$channel/wav.scp1 
+				cat $class/$channel/utt2spk1 | sort > $class/$channel/utt2spk
+				rm $class/$channel/utt2spk1
+			done
 		done
 	fi
 
