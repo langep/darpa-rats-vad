@@ -34,14 +34,15 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	classes="NS NT S RX"
 	used_classes="NS NT S"
 
+
 	if [ $stage -le 1 ]; then
 		# Split the training audio
 
-		for channel in "$channels"; do
+		for channel in $channels; do
 			( # Run each channel in a background task to speed up the work.
 
 			# Make the directories for each class
-			for class in "$classes"; do 
+			for class in $classes; do 
 				mkdir -p $local_train/$channel/$class
 			done
 			for audiofile in $train_audio/$channel/*.flac; do
