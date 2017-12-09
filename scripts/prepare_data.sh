@@ -22,7 +22,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	datadir=$(cat .data_dir)
 
-	stage=2
+	stage=3
 
 
 	train_audio=$datadir/train/audio/eng
@@ -35,7 +35,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 
 	if [ $stage -le 1 ]; then
-		# Split the training audio
+		# Split the training audio into classes per channel
 
 		for channel in $channels; do
 			( # Run each channel in a background task to speed up the work.
@@ -55,11 +55,18 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 		done
 	fi
 
-	# Join all the snippets again but now one we get one audio file per channel and used class
+	# Join all the snippets again into a few files per class per channel
 	if [ $stage -le 2 ]; then
 		for channel in $channels; do
 			( # Run each channel in a background task to speed up the work
 			for class in $used_classes; do
+				if [ $class == "NT" ]; then
+					# 'NT' class is used to mark non-transmitted regions during push-to-talk
+					# simulation. The original data and channel G do not have it.
+					if [ $channel == "G" ] || [ $channel == "src" ]; then
+						continue
+					fi 
+				fi
 				# Start out with small amount of silence
 				sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.1.wav trim 0 0.1
 				counter=1
@@ -81,5 +88,29 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			) &
 		done
 	fi
+
+	# Break down the files into 60 second snippets
+	if [ $stage -le 3 ]; then
+		for channel in $channels; do
+			( # Run this in the background
+			for class in $used_classes; do
+				if [ $class == "NT" ]; then
+					# 'NT' class is used to mark non-transmitted regions during push-to-talk
+					# simulation. The original data and channel G do not have it.
+					if [ $channel == "G" ] || [ $channel == "src" ]; then
+						continue
+					fi 
+				fi
+				for file in $local_train/$channel/$class.*.wav; do
+					name=$(basename $file)
+					name_wo_ext=${name%.*} # non-greedy removal from end
+					sox $file $local_train/$channel/$class/$name_wo_ext.%1.wav trim 0 60 : newfile : restart
+					echo $file >> $local_train/$channel/$class.split.done
+				done
+			done
+			) &
+		done
+	fi
+
 fi
 
