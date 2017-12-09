@@ -58,6 +58,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	# Join all the snippets again but now one we get one audio file per channel and used class
 	if [ $stage -le 2 ]; then
 		for channel in $channels; do
+			( # Run each channel in a background task to speed up the work
 			for class in $used_classes; do
 				# Start out with small amount of silence
 				sox -n -b 16 -r 16000 -c 1 $local_train/$channel/$class.wav trim 0 0.1
@@ -66,6 +67,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					mv $local_train/$channel/_$class.wav $local_train/$channel/$class.wav
 				done
 			done
+			) &
 		done
 	fi
 fi
