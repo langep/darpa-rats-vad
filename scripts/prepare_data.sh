@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'\n\t'
 
 #/ Usage: bash prepare_data.sh
 #/ Description: Prepares the data for the experiment.
