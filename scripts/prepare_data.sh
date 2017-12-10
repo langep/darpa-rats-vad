@@ -19,6 +19,7 @@ locate_self() {
 if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	locate_self
 	cd $PARENT_DIR
+	export LC_ALL=C
 
 	datadir=$(cat .data_dir)
 
@@ -90,6 +91,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	fi
 
 	# Remove old snippets
+	# TODO: Include some check to not delete good data by accident again!
 	if [ $stage -eq 3 ]; then
 		for channel in $channels; do
 			for class in $used_classes; do
@@ -138,17 +140,17 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				for file in $local_train/$channel/$class/*.wav; do
 					name=$(basename $file)
 					name_wo_ext=${name%.*}
-					echo $name_wo_ext\t$basedir/$file >> $class/$channel/wav.scp1
-					echo $name_wo_ext\t$name_wo_ext >> $class/$channel/utt2spk1
+					echo -e $name_wo_ext"\t"$basedir/$file >> $class/$channel/wav.scp1
+					echo -e $name_wo_ext"\t"$name_wo_ext >> $class/$channel/utt2spk1
 				done
 				cat $class/$channel/wav.scp1 | sort > $class/$channel/wav.scp
 				rm $class/$channel/wav.scp1 
 				cat $class/$channel/utt2spk1 | sort > $class/$channel/utt2spk
 				rm $class/$channel/utt2spk1
 				./utils/utt2spk_to_spk2utt.pl $class/$channel/utt2spk > $class/$channel/spk2utt
+				bash utils/validate_data_dir.sh --no-text --no-feats $class/$channel
 			done
 		done
 	fi
-
 fi
 
