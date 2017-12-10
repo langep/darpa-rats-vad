@@ -145,6 +145,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				rm $class/$channel/wav.scp1 
 				cat $class/$channel/utt2spk1 | sort > $class/$channel/utt2spk
 				rm $class/$channel/utt2spk1
+				bash utils/utt2spk_to_spk2utt.pl $class/$channel/utt2spk > $class/$channel/spk2utt
 			done
 		done
 	fi
