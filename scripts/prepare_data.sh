@@ -125,7 +125,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	if [ $stage -eq 5 ]; then
 		for channel in $channels; do
 			mkdir -p S/$channel NS/$channel 
-			if [ $channel != "G" && $channel != "src"]; then
+			if [ $channel != "G" && $channel != "src" ]; then
 				mkdir -p NT/$channel
 			fi
 			for class in $used_classes; do
