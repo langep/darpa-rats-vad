@@ -125,12 +125,14 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	if [ $stage -eq 5 ]; then
 		for channel in $channels; do
 			mkdir -p S/$channel NS/$channel 
-			if [ $channel != "G" && $channel != "src" ]; then
+			if [ $channel != "G" ] && [ $channel != "src" ]; then
 				mkdir -p NT/$channel
 			fi
 			for class in $used_classes; do
-				if [ $channel == "G" || $channel == "src" ] && [ $class = "NT" ]; then
-					continue
+				if [ $channel == "G" ] || [ $channel == "src" ]; then
+					if [ $class = "NT" ]; then
+						continue
+					fi
 				fi
 				basedir=`pwd`
 				for file in $local_train/$channel/$class/*.wav; do
