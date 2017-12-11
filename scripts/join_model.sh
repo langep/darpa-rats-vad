@@ -37,20 +37,20 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					continue
 				fi
 			fi
-			echo $class/$channel/wav.scp
 			sed -i -e "s/^/${channel}_/g" $class/$channel/wav.scp >> $class/all/wav.scp1
-			echo $class/$channel/feats.scp
 			sed -i -e "s/^/${channel}_/g" $class/$channel/feats.scp >> $class/all/feats.scp1
-			echo $class/$channel/vad.scp
 			sed -i -e "s/^/${channel}_/g" $class/$channel/vad.scp >> $class/all/vad.scp1
-			echo $class/$channel/utt2spk
 			sed -i -e "s/$class/${channel}_${class}/g" $class/$channel/utt2spk >> $class/all/utt2spk1
+				
 		done
+
+		exit
 
 		cat $class/all/wav.scp1 | sort > $class/all/wav.scp
 		cat $class/all/feats.scp1 | sort > $class/all/feats.scp
 		cat $class/all/vad.scp1 | sort > $class/all/vad.scp
 		cat $class/all/utt2spk1 | sort > $class/all/utt2spk
+
 		./utils/utt2spk_to_spk2utt.pl $class/all/utt2spk > $class/all/spk2utt
 		bash utils/validate_data_dir.sh --no-text $class/all
 
