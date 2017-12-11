@@ -44,8 +44,6 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				
 		done
 
-		exit
-
 		cat $class/all/wav.scp1 | sort > $class/all/wav.scp
 		cat $class/all/feats.scp1 | sort > $class/all/feats.scp
 		cat $class/all/vad.scp1 | sort > $class/all/vad.scp
