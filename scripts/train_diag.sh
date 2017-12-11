@@ -31,7 +31,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	for class in $used_classes; do
 		for channel in $channels; do
 			if [ $class == "NT" ]; then
-				if [ $channel == "G" || $channel == "src" ]; then
+				if [ $channel == "G" ] || [ $channel == "src" ]; then
 					continue
 				fi
 			fi
