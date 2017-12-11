@@ -37,10 +37,10 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					continue
 				fi
 			fi
-			sed -i -e "s/^/${channel}_/g" $class/$channel/wav.scp >> $class/all/wav.scp1
-			sed -i -e "s/^/${channel}_/g" $class/$channel/feats.scp >> $class/all/feats.scp1
-			sed -i -e "s/^/${channel}_/g" $class/$channel/vad.scp >> $class/all/vad.scp1
-			sed -i -e "s/$class/${channel}_${class}/g" $class/$channel/utt2spk >> $class/all/utt2spk1
+			sed -e "s/^/${channel}_/g" $class/$channel/wav.scp >> $class/all/wav.scp1
+			sed -e "s/^/${channel}_/g" $class/$channel/feats.scp >> $class/all/feats.scp1
+			sed -e "s/^/${channel}_/g" $class/$channel/vad.scp >> $class/all/vad.scp1
+			sed -e "s/$class/${channel}_${class}/g" $class/$channel/utt2spk >> $class/all/utt2spk1
 				
 		done
 
