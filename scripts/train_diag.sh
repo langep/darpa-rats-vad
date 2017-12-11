@@ -30,6 +30,11 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	for class in $used_classes; do
 		for channel in $channels; do
+			if [ $class == "NT" ]; then
+				if [ $channel == "G" || $channel == "src" ]; then
+					continue
+				fi
+			fi
 			sid/train_diag_ubm.sh --nj $nj --cmd "$train_cmd" --delta-window 2 \
     			$class/$channel 32 exp/diag_ubm_"$class"_$channel
 		done

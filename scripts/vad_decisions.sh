@@ -33,6 +33,11 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	for class in $used_classes; do
 		for channel in $channels; do
+			if [ $class == "NT" ]; then
+				if [ $channel == "G" || $channel == "src" ]; then
+					continue
+				fi
+			fi
 			mkdir -p mfcc/$class/$channel
 			sid/compute_vad_decision.sh --nj $nj --cmd "$train_cmd" \
    				$class/$channel exp/make_vad $vaddir/$class/$channel

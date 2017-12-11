@@ -23,7 +23,6 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	source ./path.sh
 
 	mfccdir=`pwd`/mfcc
-	vaddir=`pwd`/mfcc
 	train_cmd="utils/run.pl"
 	decode_cmd="utils/run.pl"
 	nj=12
@@ -33,6 +32,12 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	for class in $used_classes; do
 		for channel in $channels; do
+			if [ $class == "NT" ]; then
+				if [ $channel == "G" || $channel == "src" ]; then
+					continue
+				fi
+
+			fi
 			make -p mfcc/$class/$channel
 			local/make_mfcc_pitch.sh --nj $nj --cmd "$train_cmd" \
 				$class/$channel exp/make_mfcc $mfccdir/$class/$channel
