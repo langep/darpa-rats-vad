@@ -44,7 +44,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			echo $class/$channel/vad.scp
 			sed -i -e "s/^/${channel}_/g" $class/$channel/vad.scp >> $class/all/vad.scp1
 			echo $class/$channel/utt2spk
-			sed -i -e "s/$class/${channel}_${class}/g"$class/$channel/utt2spk >> $class/all/utt2spk1
+			sed -i -e "s/$class/${channel}_${class}/g" $class/$channel/utt2spk >> $class/all/utt2spk1
 		done
 
 		cat $class/all/wav.scp1 | sort > $class/all/wav.scp
