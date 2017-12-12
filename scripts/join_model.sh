@@ -54,6 +54,8 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 		done
 	fi
 
+	# TODO: Delete C_S.6.093 from S/all/wav.scp and S/all/utt2spk because there are no feats.
+
 	if [ $stage -eq 2 ]; then
 		for class in $used_classes; do
 			./utils/utt2spk_to_spk2utt.pl $class/all/utt2spk > $class/all/spk2utt

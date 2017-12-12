@@ -38,8 +38,8 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	stage=1
 
-	mkdir -p test
-	if [ $stage -le 1 ]; then
+	if [ $stage -eq 1 ]; then
+		mkdir -p test
 		for channel in $channels; do
 			mkdir -p $local_test/$channel
 			for file in $test_audio/$channel/*.flac; do
@@ -56,15 +56,18 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					cat test/utt2spk1 | sort > test/utt2spk
 					rm test/utt2spk1
 					./utils/utt2spk_to_spk2utt.pl test/utt2spk > test/spk2utt
-					mkdir -p mfcc/$class/$channel
-					local/make_mfcc_pitch.sh --nj $nj --cmd "$train_cmd" \
-						test exp/make_mfcc $mfccdir/test
-					sid/compute_vad_decision.sh --nj $nj --cmd "$train_cmd" \
-   						test exp/make_vad $vaddir/test
+
 				fi
 			done
 		fi
+	fi
 
+	if [ $stage -eq 2 ]; then
+		mkdir -p mfcc/$class/$channel
+		local/make_mfcc_pitch.sh --nj $nj --cmd "$train_cmd" \
+			test exp/make_mfcc $mfccdir/test
+		sid/compute_vad_decision.sh --nj $nj --cmd "$train_cmd" \
+				test exp/make_vad $vaddir/test
 	fi
 
 
