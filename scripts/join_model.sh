@@ -30,7 +30,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	used_classes="S NT NS"
 
 	stage=1
-	if [ $stage -eq 1 ]
+	if [ $stage -eq 1 ]; then
 		for class in $used_classes; do
 			mkdir -p $class/all
 			for channel in $channels; do
