@@ -35,6 +35,8 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	test_audio=$datadir/dev-1/audio
 	test_tab=$datadir/dev-1/sad
 	local_test=data/test
+	mfccdir=mfcc
+	vaddir=mfcc
 
 	stage=1
 
