@@ -53,15 +53,14 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					sox $file $local_test/$channel/$name_wo_ext.wav
 					echo -e $name_wo_ext"\t"$local_test/$channel/$name_wo_ext.wav >> test/wav.scp1
 					echo -e $name_wo_ext"\t"$name_wo_ext >> test/utt2spk1
-					cat test/wav.scp1 | sort > test/wav.scp
-					rm test/wav.scp1 
-					cat test/utt2spk1 | sort > test/utt2spk
-					rm test/utt2spk1
-					./utils/utt2spk_to_spk2utt.pl test/utt2spk > test/spk2utt
-
 				fi
 			done
 		done
+		cat test/wav.scp1 | sort > test/wav.scp
+		rm test/wav.scp1 
+		cat test/utt2spk1 | sort > test/utt2spk
+		rm test/utt2spk1
+		./utils/utt2spk_to_spk2utt.pl test/utt2spk > test/spk2utt
 	fi
 
 	if [ $stage -eq 2 ]; then
