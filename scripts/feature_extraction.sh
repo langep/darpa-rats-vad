@@ -37,7 +37,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					continue
 				fi
 			fi
-			make -p mfcc/$class/$channel
+			mkdir -p mfcc/$class/$channel
 			local/make_mfcc_pitch.sh --nj $nj --cmd "$train_cmd" \
 				$class/$channel exp/make_mfcc $mfccdir/$class/$channel
 		done
