@@ -59,7 +59,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 				fi
 			done
-		fi
+		done
 	fi
 
 	if [ $stage -eq 2 ]; then
