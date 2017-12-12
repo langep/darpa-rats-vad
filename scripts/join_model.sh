@@ -27,7 +27,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	nj=12
 
 	channels="A B C D E F G H src"
-	used_classes="NS NT S"
+	used_classes="S NT NS"
 
 	stage=1
 	if [ $stage -eq 1 ]
