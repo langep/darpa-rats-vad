@@ -63,7 +63,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	fi
 
 	if [ $stage -eq 2 ]; then
-		mkdir -p mfcc/$class/$channel
+		mkdir -p mfcc/test
 		local/make_mfcc_pitch.sh --nj $nj --cmd "$train_cmd" \
 			test exp/make_mfcc $mfccdir/test
 		sid/compute_vad_decision.sh --nj $nj --cmd "$train_cmd" \
