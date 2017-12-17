@@ -37,7 +37,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	mfccdir=mfcc
 	vaddir=mfcc
 
-	stage=1
+	stage=$1
 
 	if [ $stage -le 1 ]; then
 		mkdir -p test/all
@@ -89,6 +89,21 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			test/all exp/make_vad $vaddir/test/all
 	fi
 
+	if [ $stage -le 3 ]; then
+		mkdir -p ground_truth
+		for channel in $channels; do
+			for file in $test_audio/$channel/*.flac; do
+				name=$(basename $file)
+				name_wo_ext=${name%.*}
+				tmp=${name_wo_ext%_*}
+				lang=${tmp##*_}
+				tabfile=$name_wo_ext.tab
+				if [ $lang == "eng" ]; then
+					python scripts/tab_to_ground_truth.py $test_tab/$channel/$tabfile ground_truth
+				fi
+			done
+		done
+	fi
 
 fi
 
