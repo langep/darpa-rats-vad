@@ -4,8 +4,8 @@ import os
 from decimal import Decimal
 from glob import glob
 
-mapping = {'NS': '0', 'S': '1', 'NT': '2', 'RX': '-1'}
-ignore_rx = {'NS': '0', 'S': '1', 'NT': '2'}
+mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1, 'RS': -2}
+ignore_rx_rs = {'NS': '0', 'S': '1', 'NT': '2'}
 
 
 def read_targets(path_to_ground_truth_file):
@@ -46,7 +46,7 @@ def print_confusion_matrix(matrix):
     print("Total: {0}, Correct: {1}, Accuracy: {2}".format(total, correct, accuracy))
     total_rx, correct_rx, accuracy_rx = compute_stats(matrix, ignore_rx)
     print()
-    print("Ignoring RX")
+    print("Ignoring RX/RS")
     print("Total: {0}, Correct: {1}, Accuracy: {2}".format(total_rx, correct_rx, accuracy_rx))
 
 
@@ -56,10 +56,11 @@ if __name__ == '__main__':
     hypotheses_files = glob(os.path.join(exp_dir, 'vad_gmm_*.ark'))
 
     confusion_matrix = {
-        '0': {'0': 0, '1': 0, '2': 0, '-1': 0},
-        '1': {'0': 0, '1': 0, '2': 0, '-1': 0},
-        '2': {'0': 0, '1': 0, '2': 0, '-1': 0},
-        '-1': {'0': 0, '1': 0, '2': 0, '-1': 0}
+        '0': {'0': 0, '1': 0, '2': 0, '-1': 0, '-2': 0},
+        '1': {'0': 0, '1': 0, '2': 0, '-1': 0, '-2': 0},
+        '2': {'0': 0, '1': 0, '2': 0, '-1': 0, '-2': 0},
+        '-1': {'0': 0, '1': 0, '2': 0, '-1': 0, '-2': 0},
+        '-2': {'0': 0, '1': 0, '2': 0, '-1': 0, '-2': 0}
     }
 
     for file in hypotheses_files:

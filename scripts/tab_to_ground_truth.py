@@ -4,7 +4,7 @@ import os
 from decimal import Decimal
 
 
-mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1}
+mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1, 'RS': -2}
 
 if __name__ == '__main__':
     tab_filename = sys.argv[1]
