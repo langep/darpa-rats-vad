@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-#/ Usage: bash prepare_data.sh
-#/ Description: Prepares the data for the experiment.
-#/ Examples: bash clip_helper.sh 10003_20706_alv_A.flac 10003_20706_alv_A.tab data/train/snippets
+#/ Usage: bash prepare_train.sh
+#/ Description: Prepares the training data for the experiment.
 #/ Options:
 #/   --help: Display this help message
 usage() { grep '^#/' "$0" | cut -c4- ; exit 0 ; }
@@ -124,6 +123,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 		done
 	fi
 
+	# Create the files kaldi needs to know about the data.
 	if [ $stage -eq 5 ]; then
 		for channel in $channels; do
 			mkdir -p S/$channel NS/$channel 

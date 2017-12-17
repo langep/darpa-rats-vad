@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-#/ Usage: bash prepare_data.sh
-#/ Description: Prepares the data for the experiment.
-#/ Examples: bash clip_helper.sh 10003_20706_alv_A.flac 10003_20706_alv_A.tab data/train/snippets
+#/ Usage: bash make_train_set_vad_decisions.
+#/ Description: Computes energy based VAD decisions for each channel and class in the training set. 
 #/ Options:
 #/   --help: Display this help message
 usage() { grep '^#/' "$0" | cut -c4- ; exit 0 ; }
@@ -22,7 +21,6 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	source ./cmd.sh
 	source ./path.sh
 
-	mfccdir=`pwd`/mfcc
 	vaddir=`pwd`/mfcc
 	train_cmd="utils/run.pl"
 	decode_cmd="utils/run.pl"
