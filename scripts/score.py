@@ -84,4 +84,5 @@ if __name__ == '__main__':
                         continue
                     confusion_matrix[h][t] += 1
 
+    print(confusion_matrix)
     print_confusion_matrix(confusion_matrix)
