@@ -4,7 +4,7 @@ import os
 from decimal import Decimal
 from glob import glob
 
-mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1, 'RS': -2, 'RI': -3}
+full_mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1, 'RS': -2, 'RI': -3}
 ignore_rx_rs_ri = {'NS': '0', 'S': '1', 'NT': '2'}
 
 
@@ -29,20 +29,20 @@ def compute_stats(matrix, mapping):
 
 
 def print_confusion_matrix(matrix):
-    print("\t" + "\t".join(mapping.keys()))
+    print("\t" + "\t".join(full_mapping.keys()))
 
     lines = []
-    for key in mapping.keys():
+    for key in full_mapping.keys():
         line = [key]
-        for value in mapping.values():
-            line.append(str(matrix[mapping[key]][value]))
+        for value in full_mapping.values():
+            line.append(str(matrix[full_mapping[key]][value]))
         lines.append(line)
 
     for line in lines:
         print("\t".join(line))
 
     print()
-    total, correct, accuracy = compute_stats(matrix, mapping)
+    total, correct, accuracy = compute_stats(matrix, full_mapping)
     print("Total: {0}, Correct: {1}, Accuracy: {2}".format(total, correct, accuracy))
     total_rx, correct_rx, accuracy_rx = compute_stats(matrix, ignore_rx_rs_ri)
     print()
