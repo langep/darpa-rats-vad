@@ -44,11 +44,11 @@ def print_confusion_matrix(matrix):
         line += [str(int(line[-1]) / float(total) * 100)]
         print("\t".join(line))
 
-    print()
+    print("")
     total, correct, accuracy = compute_stats(matrix, full_mapping)
     print("Total: {0}, Correct: {1}, Accuracy: {2}".format(total, correct, accuracy))
     total_rx, correct_rx, accuracy_rx = compute_stats(matrix, ignore_rx_rs_ri)
-    print()
+    print("")
     print("Ignoring RX/RS/RI")
     print("Total: {0}, Correct: {1}, Accuracy: {2}".format(total_rx, correct_rx, accuracy_rx))
 
@@ -97,6 +97,6 @@ if __name__ == '__main__':
 
     print_confusion_matrix(confusion_matrix)
     confusion_matrix2 = merge_nt_and_ns(confusion_matrix)
-    print()
+    print("")
     print("Combined NS and NT:")
     print_confusion_matrix(confusion_matrix2)
