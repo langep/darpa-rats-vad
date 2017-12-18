@@ -27,7 +27,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	channels="A B C D E F G H src"
 	used_classes="NS NT S"
 
-	mkdir scores
+	mkdir -p scores
 
 	for channel in $channels; do
 		python scripts/score.py ground_truth/ exp/test_$channel > scores/$channel.scores
