@@ -28,16 +28,20 @@ def compute_stats(matrix, mapping):
 
 
 def print_confusion_matrix(matrix):
-    matrix2 = matrix
-    print("\t" + "\t".join(full_mapping.keys()))
+    print("\t" + "\t".join(full_mapping.keys()) + "\tTotal\t%")
     lines = []
+    total = 0
     for key in full_mapping.keys():
         line = [key]
+        line_total = 0
         for value in full_mapping.values():
+            line_total += matrix[str(full_mapping[key])][value]
             line.append(str(matrix[str(full_mapping[key])][value]))
-        lines.append(line)
+        lines.append(line + [str(line_total)])
+        total += line_total
 
     for line in lines:
+        line += [str(int(line[-1]) / float(total) * 100)]
         print("\t".join(line))
 
     print()
