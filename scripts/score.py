@@ -4,7 +4,7 @@ import os
 from decimal import Decimal
 from glob import glob
 
-full_mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1, 'RS': -2, 'RI': -3}
+full_mapping = {'NS': '0', 'S': '1', 'NT': '2', 'RX': '-1', 'RS': '-2', 'RI': '-3'}
 ignore_rx_rs_ri = {'NS': '0', 'S': '1', 'NT': '2'}
 
 
