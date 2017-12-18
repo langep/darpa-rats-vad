@@ -23,8 +23,8 @@ def compute_stats(matrix, mapping):
             total += matrix[mapping[key]][value]
             if mapping[key] == value:
                 correct += matrix[mapping[key]][value]
-    accuracy = correct/total
-    return total, correct, accuracy
+    accuracy = float(correct)/total * 100
+    return (total, correct, accuracy)
 
 
 def print_confusion_matrix(matrix):
