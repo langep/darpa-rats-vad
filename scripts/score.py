@@ -76,7 +76,10 @@ if __name__ == '__main__':
                 hypotheses = hypotheses.split()
                 targets = read_targets(os.path.join(ground_truth_dir, ground_truth_name))
                 for i, h in enumerate(hypotheses):
-                    t = targets[i]
+                    try:
+                        t = targets[i]
+                    except:
+                        continue
                     confusion_matrix[h][t] += 1
 
     print_confusion_matrix(confusion_matrix)
