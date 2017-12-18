@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import sys
 import os
-from decimal import Decimal
 from glob import glob
 
 full_mapping = {'NS': '0', 'S': '1', 'NT': '2', 'RX': '-1', 'RS': '-2', 'RI': '-3'}
@@ -24,7 +23,7 @@ def compute_stats(matrix, mapping):
             total += matrix[mapping[key]][value]
             if mapping[key] == value:
                 correct += matrix[mapping[key]][value]
-    accuracy = round(Decimal(float(correct/total)), 2)
+    accuracy = correct/total
     return total, correct, accuracy
 
 
@@ -80,7 +79,6 @@ if __name__ == '__main__':
                         t = targets[i]
                     except:
                         continue
-                    confusion_matrix[h][t] += 1
+                    confusion_matrix[t][h] += 1
 
-    print(confusion_matrix)
     print_confusion_matrix(confusion_matrix)
