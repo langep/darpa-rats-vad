@@ -31,13 +31,13 @@ if [ $stage -le 2 ]; then
 	channels="A B C D E F H"
 	used_classes="NS NT S"
 	for channel in $channels; do
-		sid/compute_vad_decision_gmm.sh --nj 10 --use_energy_vad false test/all exp/full_ubm_NS_all exp/full_ubm_S_all exp/full_ubm_NT_all exp/test_all_$channel exp/test_all_$channel
+		sid/compute_vad_decision_gmm.sh --nj 10 --use_energy_vad false test/$channel exp/full_ubm_NS_all exp/full_ubm_S_all exp/full_ubm_NT_all exp/test_all_$channel exp/test_all_$channel
 	done
 
 	# Not using NT model as we didn't train it for these channels
 	channels="G src"
 	used_classes="NS S"
 	for channel in $channels; do
-		sid/compute_vad_decision_gmm.sh --nj 10 --use_energy_vad false test/all exp/full_ubm_NS_all exp/full_ubm_S_all exp/test_all_$channel exp/test_all_$channel
+		sid/compute_vad_decision_gmm.sh --nj 10 --use_energy_vad false test/$channel exp/full_ubm_NS_all exp/full_ubm_S_all exp/test_all_$channel exp/test_all_$channel
 	done
 fi
