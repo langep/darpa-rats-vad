@@ -99,7 +99,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				lang=${tmp##*_}
 				tabfile=$name_wo_ext.tab
 				if [ $lang == "eng" ]; then
-					python scripts/tab_to_ground_truth.py $test_tab/$channel/$tabfile ground_truth
+					python scripts/tab_to_ground_truth.py $test_tab/$channel/$tabfile ground_truth $name_wo_ext
 				fi
 			done
 		done

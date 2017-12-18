@@ -9,7 +9,8 @@ mapping = {'NS': 0, 'S': 1, 'NT': 2, 'RX': -1, 'RS': -2, 'RI': -3}
 if __name__ == '__main__':
     tab_filename = sys.argv[1]
     output_path = sys.argv[2]
-    output_filename = tab_filename.replace('.tab', '.ground_truth')
+    output_name = sys.argv[3]
+    output_filename = output_name + '.ground_truth'
     ground_truth = []
     with open(tab_filename, 'r') as fh:
         for line in fh.readlines():
