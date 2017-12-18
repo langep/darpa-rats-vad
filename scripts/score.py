@@ -36,6 +36,7 @@ def print_confusion_matrix(matrix):
         line = [key]
         for value in full_mapping.values():
             print(full_mapping[key])
+            print(matrix)
             print(matrix[full_mapping[key]])
             line.append(str(matrix[full_mapping[key]][value]))
         lines.append(line)
