@@ -28,8 +28,8 @@ def compute_stats(matrix, mapping):
 
 
 def print_confusion_matrix(matrix):
+    matrix2 = matrix
     print("\t" + "\t".join(full_mapping.keys()))
-
     lines = []
     for key in full_mapping.keys():
         line = [key]
@@ -48,6 +48,16 @@ def print_confusion_matrix(matrix):
     print("Ignoring RX/RS/RI")
     print("Total: {0}, Correct: {1}, Accuracy: {2}".format(total_rx, correct_rx, accuracy_rx))
 
+
+def merge_nt_and_ns(matrix):
+    matrix2 = dict(matrix)
+    for key in matrix2:
+        matrix2[key]['0'] += matrix2[key]['2']
+        matrix2[key]['2'] = 0
+    for key in matrix2['0']:
+        matrix2['0'][key] += matrix2['2'][key]
+        matrix2['2'][key] = 0
+    return matrix2
 
 if __name__ == '__main__':
     ground_truth_dir = sys.argv[1]
@@ -82,3 +92,7 @@ if __name__ == '__main__':
                     confusion_matrix[t][h] += 1
 
     print_confusion_matrix(confusion_matrix)
+    confusion_matrix2 = merge_nt_and_ns(confusion_matrix)
+    print()
+    print("Combined NS and NT:")
+    print_confusion_matrix(confusion_matrix2)
