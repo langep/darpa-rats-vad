@@ -30,9 +30,9 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	mkdir scores
 
 	for channel in $channels; do
-		python script/score.py ground_truth/ exp/test_$channel > scores/$channel.scores
-		python script/score.py ground_truth/ exp/test_all_$channel > scores/all_$channel.scores
+		python scripts/score.py ground_truth/ exp/test_$channel > scores/$channel.scores
+		python scripts/score.py ground_truth/ exp/test_all_$channel > scores/all_$channel.scores
 	done
 
-	python script/score.py ground_truth/ exp/test_all > scores/all.scores
+	python scripts/score.py ground_truth/ exp/test_all > scores/all.scores
 fi
