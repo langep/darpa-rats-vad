@@ -22,7 +22,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	datadir=$(cat .data_dir)
 
-	stage=3
+	stage=1
 
 
 	train_audio=$datadir/train/audio/eng
@@ -34,7 +34,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	used_classes="NS NT S"
 
 
-	if [ $stage -eq 1 ]; then
+	if [ $stage -le 1 ]; then
 		# Split the training audio into classes per channel
 
 		for channel in $channels; do
@@ -56,7 +56,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	fi
 
 	# Join all the snippets again into a few files per class per channel
-	if [ $stage -eq 2 ]; then
+	if [ $stage -le 2 ]; then
 		for channel in $channels; do
 			( # Run each channel in a background task to speed up the work
 			for class in $used_classes; do
@@ -91,7 +91,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 
 	# Remove old snippets
 	# TODO: Include some check to not delete good data by accident again!
-	if [ $stage -eq 3 ]; then
+	if [ $stage -le 3 ]; then
 		for channel in $channels; do
 			for class in $used_classes; do
 				rm -r $local_train/$channel/$class/
@@ -101,7 +101,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	fi
 
 	# Break down the files into 60 second snippets
-	if [ $stage -eq 4 ]; then
+	if [ $stage -le 4 ]; then
 		for channel in $channels; do
 			( # Run this in the background
 			for class in $used_classes; do
@@ -124,7 +124,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	fi
 
 	# Create the files kaldi needs to know about the data.
-	if [ $stage -eq 5 ]; then
+	if [ $stage -le 5 ]; then
 		for channel in $channels; do
 			mkdir -p S/$channel NS/$channel 
 			if [ $channel != "G" ] && [ $channel != "src" ]; then
@@ -135,6 +135,13 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 					if [ $class = "NT" ]; then
 						continue
 					fi
+				fi
+				# Cleanup 
+				if [ -f $class/$channel/wav.scp ]; then
+					rm $class/$channel/wav.scp
+				fi
+				if [ -f $class/$channel/utt2spk ]; then
+					rm $class/$channel/utt2spk
 				fi
 				basedir=`pwd`
 				for file in $local_train/$channel/$class/*.wav; do

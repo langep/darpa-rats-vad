@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-#/ Usage: bash prepare_test_with_feats.sh
-#/ Description: Prepares the data for the test set including features and vad decisions.
+#/ Usage: bash prepare_test.sh
+#/ Description: Prepares the data for the test set including features, vad decisions and ground truth.
 #/ Options:
 #/   --help: Display this help message
 usage() { grep '^#/' "$0" | cut -c4- ; exit 0 ; }
@@ -37,13 +37,12 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 	mfccdir=mfcc
 	vaddir=mfcc
 
-	stage=$1
+	stage=1
 
 	if [ $stage -le 1 ]; then
 		mkdir -p test/all
 		for channel in $channels; do
 			mkdir -p $local_test/$channel
-			mkdir -p test/$channel
 			for file in $test_audio/$channel/*.flac; do
 				name=$(basename $file)
 				name_wo_ext=${name%.*}
@@ -51,15 +50,41 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 				lang=${tmp##*_}
 				if [ $lang == "eng" ]; then
 					sox $file $local_test/$channel/$name_wo_ext.wav
-					# For per channel evaluation
-					echo -e $name_wo_ext"\t"$local_test/$channel/$name_wo_ext.wav >> test/$channel/wav.scp1
-					echo -e $name_wo_ext"\t"$name_wo_ext >> test/$channel/utt2spk1
-					# For combined model evaluation
-					echo -e $name_wo_ext"\t"$local_test/$channel/$name_wo_ext.wav >> test/all/wav.scp1
-					echo -e $name_wo_ext"\t"$name_wo_ext >> test/all/utt2spk1
 				fi
 			done
-			# For per channel evaluation
+		done
+	fi
+
+	if [ $stage -le 2]; then
+		# cleanup
+		if [ -f test/all/wav.scp ]; then
+			rm test/all/wav.scp
+		fi
+		if [ -f test/all/utt2spk ]; then
+			rm test/all/utt2spk
+		fi
+		# cleanup done
+		for channel in $channels; do
+			mkdir -p test/$channel
+			# cleanup
+			if [ -f test/$channel/wav.scp ]; then
+				rm test/$channel/wav.scp
+			fi
+			if [ -f test/$channel/utt2spk ]; then
+				rm test/$channel/utt2spk
+			fi
+			# cleanup done
+			for file in $local_test/$channel/*.wav; do
+				name=$(basename $file)
+				name_wo_ext=${name%.*}
+				# For per channel evaluation
+				echo -e $name_wo_ext"\t"$local_test/$channel/$name_wo_ext.wav >> test/$channel/wav.scp1
+				echo -e $name_wo_ext"\t"$name_wo_ext >> test/$channel/utt2spk1
+				# For combined model evaluation
+				echo -e $name_wo_ext"\t"$local_test/$channel/$name_wo_ext.wav >> test/all/wav.scp1
+				echo -e $name_wo_ext"\t"$name_wo_ext >> test/all/utt2spk1
+			done
+			# For per channel evaluation			
 			cat test/$channel/wav.scp1 | sort > test/$channel/wav.scp
 			rm test/$channel/wav.scp1 
 			cat test/$channel/utt2spk1 | sort > test/$channel/utt2spk
@@ -74,7 +99,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 		./utils/utt2spk_to_spk2utt.pl test/all/utt2spk > test/all/spk2utt
 	fi
 
-	if [ $stage -le 2 ]; then
+	if [ $stage -le 3 ]; then
 		for channel in $channels; do
 			mkdir -p mfcc/test/$channel
 			local/make_mfcc_pitch.sh --nj $nj --cmd "$train_cmd" \
@@ -89,7 +114,7 @@ if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
 			test/all exp/make_vad $vaddir/test/all
 	fi
 
-	if [ $stage -le 3 ]; then
+	if [ $stage -le 4 ]; then
 		mkdir -p ground_truth
 		for channel in $channels; do
 			for file in $test_audio/$channel/*.flac; do
