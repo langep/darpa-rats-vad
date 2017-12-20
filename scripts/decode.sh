@@ -7,7 +7,7 @@ cd $PARENT_DIR
 source ./cmd.sh
 source ./path.sh
 
-stage=$1
+stage=1
 
 if [ $stage -le 1 ]; then
 	sid/compute_vad_decision_gmm.sh --nj 10 --use_energy_vad false test/all exp/full_ubm_NS_all exp/full_ubm_S_all exp/full_ubm_NT_all exp/test_all exp/test_all
