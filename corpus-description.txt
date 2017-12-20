@@ -1,0 +1,590 @@
+
+README FILE FOR:  RATS Speech Activity Detection (SAD) Corpus
+ LDC Catalog-ID:  LDC2015S02
+
+
+Authors:
+        David Graff <graff@ldc.upenn.edu>,
+        Xiaoyi Ma <xma@ldc.upenn.edu>, 
+        Stephanie Strassel <strassel@ldc.upenn.edu>
+        Kevin Walker <walkerk@ldc.upenn.edu>,
+
+0.0 Overview of README contents
+
+    1.0 Introduction
+    2.0 Corpus Structure
+         2.1 Organization of Directories
+         2.2 File Name Patterns
+    3.0 Structure of Documentation Tables
+         3.1 Source audio summary: source_file_info.tab
+         3.2 Retransmitted audio set summary: retrans_fileset_info.tab
+    4.0 Description of Data Files
+         4.1 FLAC-compressed Audio
+         4.2 Tab-Delimited Annotations
+    5.0 Description of Audio Collection Process
+         5.1 Transceiver Channel Specifications
+         5.2 Recording, Signal Processing, Quality Control and Alignment
+    6.0 Description of SAD Annotation Process
+
+
+1.0 Introduction
+
+The RATS SAD corpus comprises audio and annotation data created by the
+LDC to provide training, development and initial test sets for the
+Speech Activity Detection (SAD) task in the DARPA RATS program.
+
+The goal of the RATS program was to develop Human Language Technology
+(HLT) systems capable of performing speech detection, language
+identification, speaker identification and keyword spotting on the
+severely degraded audio signals that are typical of various radio
+communication channels, especially those employing various types of
+handheld portable transceiver systems.
+
+To support that goal, the LDC assembled a specialized system for
+transmission, reception and digital capture of audio data, such that a
+single source audio signal could be distributed and recorded over
+eight distinct transceiver configurations simultaneously.  The
+relatively clear source audio data was annotated manually to provide
+the labels needed for a given HLT task - e.g. time boundaries for the
+onset and offset of speech activity - and these annotations were then
+projected onto the corresponding eight channels of audio that were
+recorded from the radio receivers.  Further details are provided in
+later sections of the README file.
+
+The source audio used to create the SAD corpus consisted entirely of
+conversational telephone speech (CTS) recordings, taken either from
+previous LDC CTS corpora, or from CTS data collected specifically for
+the RATS program.  Previous LDC corpora used in the RATS collection
+included Fisher English (LDC2004S13, LDC2005S13) and Fisher Levantine
+Arabic (LDC2007S02).  The CTS data that was newly collected for use in
+the SAD corpus included speakers in three languages: Levantine Arabic,
+Pashto and Urdu.
+
+Corpus creation for RATS SAD involved five languages, listed below
+together with their 3-letter abbreviations and the amount of source
+audio present for each:
+
+     #SOURCE #SOURCE
+LNG    FILES   HOURS  Full Name
+-------------------------------
+alv     701    141.4  Levantine Arabic
+eng     692    116.3  English
+fas      36      9.1  Farsi
+pus     137     34.3  Pashto
+urd     170     41.9  Urdu
+--------------------
+Total  1736    343.0
+
+All files are single-channel, and hours reported above are based on
+file duration; each file is one side of a two-party conversation, so
+the number of hours of actual speech is roughly half the amount shown
+above.  Between 5 and 8 transmission channels were recorded for each
+source file, so the total amount of audio in the corpus, counting both
+source and retransmission data, is 2957.8 hours in 14724 files.
+
+Acknowledgments:
+
+This material is based upon work supported by the Defense Advanced
+Research Projects Agency (DARPA) under Contract No. D10PC20016.  The
+content does not necessarily reflect the position or the policy of the
+Government, and no official endorsement should be inferred.
+
+We would like to express special thanks to Dan Ellis at Columbia
+University, and John Hansen at the University of Texas at Dallas, for
+their substantial technical assistance during the creation of the RATS
+corpus.
+
+
+
+2.0 Corpus Structure
+
+ 2.1 Organization of Directories
+
+The corpus is presented on a single hard disk; the overall directory
+structure is as follows:
+
+  index.html
+
+  docs/
+    README.txt -- this file
+    all_flac_info.tab -- paths, durations, file sizes, sample checksums
+    source_file_info.tab -- list/attributes of source audio
+    retrans_fileset_info.tab -- list/attributes of degraded audio sets
+    RATS_SAD_1PGuidelines_V1.pdf -- 1st-pass annotation instructions
+    RATS_SAD_2PGuidelines_V2.pdf -- 2nd-pass annotation instructions
+
+  data/
+    dev-1/
+      audio/
+        {A,B,C,D,E,F,G,H,src}/
+      sad/
+        {A,B,C,D,E,F,G,H,src}/
+
+    dev-2/
+      audio/
+        {A,B,C,D,E,F,G,H,src}/
+      sad/
+        {A,B,C,D,E,F,G,H,src}/
+
+    train/
+      audio/
+        alv/
+          {A,B,C,D,E,F,G,H,src}/
+        eng/
+          {A,B,C,D,E,F,G,H,src}/
+        fas/
+          {A,B,C,D,E,F,G,H,src}/
+        pus/
+          {A,B,C,D,E,F,G,H,src}/
+        urd/
+          {A,B,C,D,E,F,G,H,src}/
+
+      sad/
+        alv/
+          {A,B,C,D,E,F,G,H,src}/
+        eng/
+          {A,B,C,D,E,F,G,H,src}/
+        fas/
+          {A,B,C,D,E,F,G,H,src}/
+        pus/
+          {A,B,C,D,E,F,G,H,src}/
+        urd/
+          {A,B,C,D,E,F,G,H,src}/
+
+
+To summarize the organization of the data:
+
+ - The primary division marks the inventories designated for use as
+training, initial development set (dev-1), and initial evaluation set
+(dev-2).  These partitions were based on sampling recommendations
+provided by a team at SAIC, whose task was to administer and score the
+evaluations of the HLT systems developed for RATS.
+
+ - Each partition is subdivided into separate paths for audio and SAD
+annotation files.
+
+ - The training partition is further subdivided according to the
+languages used in the source CTS recordings.  In the dev-1 and dev-2
+sets, files from all languages are grouped together.  (Information on
+the language and source corpus for all data files is provided by the
+two tables in the "docs" directory, as described in the next section.)
+
+ - The lowest directory level divides the data according to the
+channel condition, i.e. source audio (src) or one of the eight
+transceiver channels, labeled "A" - "H".
+
+ 2.2 File Name Patterns
+
+All data file names consist of a numeric ID, the language used in the
+recording, and a channel identifier, as follows:
+
+  source audio files:  {iiiii}_{lng}_src.{type}
+  transceiver files:   {iiiii}_{jjjjj}_{lng}_{c}.{type}
+
+where:
+
+  {iiiii} is a 5-digit source audio identifier
+  {jjjjj} is a 5-digit transmission session identifier
+  {lng} is one of:
+        alv: Levantine Arabic
+        eng: American English
+        fas: Farsi (Persian)
+        pus: Pashto
+        urd: Urdu
+  {c}    is one of: A B C D E F G H
+  {type} is one of: "flac", "tab"
+
+So, relating a given source file to all the transmitted files derived
+from it, involves matching the first five digits of the file names;
+all the files recorded simultaneously from transceivers in a given
+transmission session will have identical file names, except for the
+single letter representing the particular channel.
+
+Over the course of the RATS corpus creation project, a given source
+audio file could be used more than once for retransmission, so that
+the 5-digit source ID ({iiiii} above) could be associated with two or
+more 5-digit transmission session IDS ({jjjjj} above); this re-use of
+a given source file does not occur in the data used for SAD.
+
+
+3.0 Structure of Documentation Tables
+
+ 3.1 FLAC file information for all audio: all_flac_info.tab
+
+This table has 6 tab-delimited columns, as follows:
+
+  Col#  Content
+     1  FILEPATH  -- starting at "data/"                        
+     2  SECONDS   -- audio duration in seconds (floating point)
+     3  FLC_KB    -- flac-compressed file size in kilobytes
+     4  UNC_KB    -- uncompressed audio size in kilobytes
+     5  C_RATIO   -- compression ratio (floating point)
+     6  SAMP_MD5  -- checksum of uncompressed sample data
+
+Note that the "SAMP_MD5" value, which comes from the FLAC header of
+each file, is computed over just the uncompressed sample data,
+excluding all file-header content; it therefor differs from the MD5
+checksum of the flac file taken as a whole.
+
+
+ 3.2 Source audio summary: source_file_info.tab
+
+This table has six tab-delimited columns, as follows:
+
+     1  SRC_ID   -- 5-digit numeric ID assigned to the source audio
+     2  CORPUS   -- corpus of origin: "fisher" or "rats"
+     3  LNG      -- "alv", "eng", "fas", "pus", "urd" (cf. 2.2 above)
+     4  SRC_FILE -- full name of source file in corpus of origin
+     5  MINUTES  -- source recording duration (floating-point)
+     6  PART     -- partition: "train", "dev-1" or "dev-2"
+
+The SRC_ID field is used as the file-ID portion of the corresponding
+file names in the "src" subdirectories under "audio" and "sad" (e.g.
+"audio/LNG/src/12345_LNG_src.flac", "sad/LNG/src/12345_LNG_src.tab").
+
+
+ 3.3 Retransmitted audio set summary: retrans_fileset_info.tab
+
+This table has five tab-delimited columns, as follows:
+
+     1  RETRANS_ID     -- 5-digit_5-digit source_retrans ID
+     2  RETRANS_BGN_AT -- transmit start time (EST): YYYYMMDD_hhmmss
+     3  N_PTT          -- number of "push-to-talk" regions (integer)
+     4  CHANNELS       -- indicator of presence/absence of channels
+     5  PART           -- partition: "train", "dev-1", "dev-2"
+
+The RETRANS_ID field matches the initial numeric ID fields of the
+corresponding file names.
+
+N_PTT is an _approximate_ count of the number of push-to-talk regions
+in the transmission session, based on a log file created by the
+voice-activation relay in the transmission system. The actual number
+of button-on/button-off transitions may vary within the session from
+one channel to another, due to mechanical limitations or other factors
+in the various transceiver configurations.  (Note that channel G was
+not mediated by any PTT device - its transceiver was always engaged
+over the entire duration of every session.)
+
+CHANNELS is an eight-character string in which a given position will
+either be the letter for the given channel (ABCDEFGH), or an
+underscore character, indicating that the particular channel failed
+during that session.  In most sessions, all channels worked as
+intended, but there were many sessions in which one or more channels
+failed to produce usable recordings, for various reasons.  Here's a
+summary of the distinct patterns in the CHANNELS field:
+
+    979 ABCDEFGH
+    270 ABCDEFG_
+     65 AB_DEFGH
+    349 _BCDEFGH
+      1 _B_DEFGH
+      2 __CDEFGH
+     70 ___DEFGH
+   ----
+   1736 sessions total
+
+This shows that four channels (D, E, F, G) worked as intended in all
+sessions; channel H failed in 270 sessions, but all other channels
+worked in those cases; channel A failed a total of 422 times, and
+channels B and/or C also failed in some of those sessions; B failed a
+total of 72 times, and C failed 136 times (65 + 1 + 70).
+
+Note that the term "worked as intended" is a generalization; there may
+be portions of audio on a given channel in a given session where a
+typical human user would say that the transmission failed, because one
+or more utterances were unintelligible.  The metrics used to determine
+whether a given channel "succeeded" were based on aggregate signal
+processing measures over the entire session for the given channel
+(described in more detail in section 5 below), and not on the
+intelligibility of utterances contained in the session.
+
+
+4.0 Description of Data Files
+
+ 4.1 FLAC-compressed Audio
+
+All audio files are presented here as single-channel, 16-bit PCM,
+16000 samples per second; lossless FLAC compression is used on all
+files; when uncompressed, the files have typical "MS-WAV" (RIFF) file
+headers.
+
+All the source CTS audio data, whether previously published in Fisher
+corpora or newly collected for RATS, was originally captured as 8-bit
+mu-law, 8000 samples per second.  That original format has been
+converted to 16-bit, 16-KHz for consistency and ease of use in
+combination with the original capture format of the retransmission
+audio channels.
+
+ 4.2 Tab-Delimited Annotations
+
+All RATS annotation files are presented as tab-delimited tables with
+12 columns per row, as follows:
+
+     1  data partition (train, dev-1, dev-2)
+     2  file_ID ("{iiiii}_{lng}_src" or "{iiiii}_{jjjjj}_{lng}_{c}")
+     3  start time (floating-point seconds)
+     4  end time (floating-point seconds)
+     5  Speech Activity Detection (SAD) segment label
+     6  SAD provenance
+     7  speaker ID
+     8  SID provenance
+     9  language ID
+    10  LID provenance
+    11  transcript
+    12  transcript provenance
+
+This layout was designed to provide a consistent tabular format for
+use across all RATS tasks; as such, only a subset of fields are
+relevant to SAD annotation: fields 1-6, and fields 9 and 10; the
+others (speaker ID, SID provenance, transcript, transcript provenance)
+are not relevant, and are left empty in the SAD annotation files.
+
+The "language ID" field shows the expected language of the source
+audio file (alv, eng, fas, pus or urd); the "LID provenance" in all
+cases is shown as "original", to indicate that, with respect to the
+SAD annotations, no additional effort was made to confirm the language
+being used in any given utterance in the file.
+
+Field 5 (SAD segment label) can have one of the following values:
+
+ S  : speech segment
+ NS : non-speech segment
+ NT : "button-off" segment (not transmitted according to PTT log)
+ RX : "button-off" segment (not transmitted according to RMS scan)
+
+Field 6 (SAD provenance) can be either "manual" or "automatic",
+indicating that the particular time-stamp boundaries for the segment
+were set by manual annotation, or by integration of manual labels with
+subsequent automatic signal processing.
+
+The "src" channel segment labels are all "manual", and comprise only
+"S" and "NS" labels.  The other labels, and "automatic" provenance,
+apply only to transmitted audio channels.  The annotation procedures
+are described in more detail in section 6 below.
+
+
+5.0 Description of Audio Collection Process
+
+ 5.1 Transceiver Channel Specifications
+
+The layout of hardware on the eight transceiver channels is as
+follows:
+
+     ::   Transmitter      ::    Receiver          :: RF Band /
+ CHN :: Make      Model    :: Make      Model      :: Modulation
+ ---------------------------------------------------------------
+   A :: Motorola  HT1250   :: AOR       AR5001/D   :: UHF/NFM
+   B :: Midland   GXT1050* :: AOR       AR5001/D   :: UHF/NFM
+   C :: Midland   GXT1050* :: TenTec    RX400      :: UHF/NFM
+   D :: Galaxy    DX2547   :: Icom      IC-R75     :: HF/SSB
+   E :: Icom      IC-F70D  :: Icom      IC-R8500   :: VHF/NFM
+   F :: Trisquare TSX300   :: Trisquare TSX300     :: UHF/FHSS
+   G :: Vostek    LX-3000  :: Vostek    VRX-24LTS  :: UHF/WFM
+   H :: Magnum    1012 HT  :: TenTec    RX340      :: HF/AM
+
+Explanation of "RF Band / Modulation" acronyms:
+
+   HF: High Frequency
+  VHF: Very High Frequency
+  UHF: Ultra High Frequency
+
+   AM: Amplitude Modulation
+ FHSS: Frequency Hopping Spread Spectrum
+  NFM: Narrow-band Frequency Modulation
+  SSB: Single-Side-Band
+  WFM: Wide-band Frequency Modulation
+
+
+ 5.2 Recording, Signal Processing, Alignment and Quality Control
+
+The transmission and capture of eight simultaneous channels from a
+single source audio file ran as a continuous, automated process.  It
+was managed via a database, in which source audio files were assigned
+a numeric "src_id" as they were queued up for transmission, and each
+resulting set of 8-channel received audio files was assigned a common
+"sig_id" when the transmission system created the recordings.  These
+"src_id" and "sig_id" numbers were used in the names various audio
+files.
+
+As the recordings were uploaded from the capture system to network
+storage, additional automated processes were applied to establish the
+time offsets for "button-on" regions in the PTT channels, measure
+signal levels at 20 msec intervals on each file, and do cross-
+correlation based alignment between the source audio data and channel
+G (which was generally the least degraded, and was always engaged,
+rather than being controlled by PTT button events).
+
+Frame-based RMS signal level measures were used to determine the
+"peak-to-valley" dynamic range for each transceiver audio file; if the
+peak energy or the difference between highest and lowest frame energy
+never reached given thresholds (established heuristically for each
+channel), the particular file was flagged as unusable in the database.
+
+"Button-on" regions were identified on the basis of time-stamp log
+data from the voice-activated relay (VAR) system that triggered button
+events for transmission on channels A-E and H.  For channel F, the PTT
+button transitions were identified using a simple signal analysis
+process for finding peak-clipped transients in the audio.
+
+For channels A, B, C, E and H, the frame-based RMS data was also used
+in combination with the log-based "button-on" regions, to identify
+portions where the radio carrier signal dropped out prematurely (i.e.
+where transmission on a given channel stopped before the VAR turned
+the transmit button off - this could happen on extended utterances, if
+the utterance duration exceeded operating parameters for the
+transceiver, or the device overheated, etc).
+
+Based on the results of these processes involving PTT events in each
+session, the original "speech / non-speech" (S/NS) annotations on the
+source audio data have been modified by further subdividing the "S"
+regions, and assigning new labels to certain portions:
+
+  "NT": "button-off" state indicated by VAR log or channel F analysis
+  "RX": loss of carrier detected by frame-based RMS measures
+
+In effect, both NT and RX segments in annotation files indicate that
+(some portion of) a speech region was not transmitted.  The difference
+between NT and RX has to do with how they are asserted, and how they
+are distributed among the various channels:
+
+ - NT regions are based on the VAR time-stamp log, and will be found
+consistently across all the PTT-mediated channels (A-F,H) for a given
+instance within a given transmission session; there may be slight
+differences in NT offsets for channel F relative to the others,
+because button events on channel F are determined directly from signal
+analysis, rather than from the VAR log.
+
+ - RX regions are based on per-frame RMS levels in a given channel,
+and is typically unrelated to transmission behavior on other channels.
+
+Regarding time alignment, initial study of the 8-channel capture data
+showed small but noticeable and consistent differences in time offsets
+among the 8 transceivers.  Relative to channel G, the other seven
+channels showed time lags between 0.004 and 0.031 seconds.  Meanwhile,
+the start-up of the 8-channel capture was physically isolated from the
+start-up for playing the source signal into the transmitters - the
+transmission and reception/capture systems were only approximately
+coordinated in time.
+
+The "S/NS" annotations, which were done manually on the clean source
+audio file, were adapted to each of the 8 transceiver audio files as
+follows:
+
+First, an alignment tool called "skewview", created and made available
+by Dan Ellis of Columbia University during the early stages of the
+RATS program, was used to establish an alignment offset between the
+source audio file and channel G.  This tool (which can be found at
+http://labrosa.ee.columbia.edu/projects/skewview/) uses normalized
+cross-correlation to compute the optimal time offset between two
+related signals on a frame-by-frame basis.  Its output can reveal both
+gradual drifts in offsets (due to marginally different sampling rates)
+and abrupt discontinuities (e.g. due to sampling dropouts caused by
+buffer overruns, etc); total absence of coherent alignment over
+consecutive frames indicates that the two signals being compared have
+nothing in common.
+
+For the sessions that yielded a strong and steady correlation between
+source audio and channel G, the median time offset for the session as
+a whole was used as a baseline reference, and relative offsets for the
+other 7 channels were added to this value.
+
+Then the time stamps and labels of the source annotations were
+transposed to the adjusted alignment offset for each transceiver
+channel in the given session, and this version of the annotation was
+used in combination with the button-on timing data to produce the
+eight transceiver annotations.
+
+A final step of QC was to arbitrarily select a speech ("S") segment up
+to 5 seconds in duration from the session (typically from the middle
+or latter part of the source audio file), use the computed alignment
+offsets for each channel to extract the corresponding transceiver
+segment (given that these were also labeled "S" - i.e. had presumably
+been transmitted as expected), and then use skewview again, comparing
+the source audio extract to each channel extract.  If this run yielded
+less than 1 msec offset difference between the source and each
+transceiver extract, the session data and alignments were flagged as
+fully successful.
+
+
+6.0 Description of SAD Annotation Process
+
+For SAD annotation, speech vs. non-speech was defined as follows:
+
+Speech includes:
+
+ - One person talking with no other sounds or voices in the background
+
+ - One person talking with non-speech noises (e.g. traffic or music)
+   in the background
+
+ - Laughter or other vocalizations from that same person like
+   coughing, sneezing (excluding singing)
+
+Non-speech includes:
+
+ - Silence, or regions with no noise other than crackle or other
+   noises from the recording
+
+ - Background noise including sound effects, TV or radio, traffic,
+   other noises
+
+ - Background noise including faint background speech, laughter or
+   vocalizations from someone else
+
+ - Singing from any speaker
+
+ - Non-vocal music
+
+ - Computer voices (not human voices)
+
+Annotators were instructed to exclude recordings with multiple
+speakers on the main channel (i.e., report them as unsuitable for
+annotation and remove them from the pipeline).
+
+Annotation files were produced using a three-step process.
+
+Step 1: Automatic SAD Labeling
+
+Following echo-cancellation of the 8-bit, single-channel wav files,
+LDC's in-house automatic speech activity detector 'segmenter' was run
+against the audio to produce a speech segmentation for each file. The
+segmenter provided a .1 second padding on each side of each segment.
+Preliminary annotation files were then generated from these
+segmentations and sent for manual annotation.
+
+Step 2: Manual First Pass SAD Annotation
+
+First pass annotation was performed as a quick correction pass over
+the automatic SAD output. Wherever possible files were assigned to
+native speakers of the language in question. First pass annotators are
+generally less experienced junior annotators. During first pass SAD
+annotation, annotators were instructed to do the following:
+
+a) listen to all segments marked as speech by the auto-segmenter
+   - delete non-speech segments
+   - flag mixed speech/non-speech segments for editing in a 2nd pass 
+   - do nothing with speech segments
+
+b) listen to all segments marked as non-speech by the auto-segmenter.
+   For any region containing speech, create a speech segment for that
+   region.
+
+Step 3: Manual Second Pass SAD Annotation
+
+Second pass SAD annotation was performed as a careful review of first
+pass annotators' output. Wherever possible files were assigned to
+native speakers of the language in question. Second pass annotators
+are generally highly experienced senior annotators. During second pass
+SAD annotation, annotators were instructed to do the following:
+
+a) listen to each speech segment and adjust the endpoints as needed to
+   ensure accuracy. Merge or split segments as needed to ensure that
+   lengthy periods of non-speech are excluded from speech segments
+   (using a threshold of .5 seconds or less).
+
+b) listen to each non-speech segment and adjust the endpoints as
+   needed to ensure accuracy
+
+c) listen to the entire recording again from start to finish to ensure
+   that segmentation is complete and accurate.
+
