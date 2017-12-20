@@ -4,3 +4,5 @@ path.sh
 sid
 steps
 utils
+scores
+ground_truth
