@@ -5,7 +5,8 @@ The code can also be found in the github repository at [https://github.com/lange
 ## Running the experiment
 
 Setup kaldi location, data location, create symlinks, etc.
-!Requires original data. Output provided
+!NOTE: You can enter any directory for <path-to-rats-data> if you don't have the darpa rats data.
+	   Be aware to not run any scripts that are marked as requiring the original data.
 ```
 bash scripts/initial_setup.sh <path-to-kaldi> <path-to-rats-data>
 ```
