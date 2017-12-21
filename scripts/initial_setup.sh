@@ -19,7 +19,7 @@ locate_self() {
 
 copy_from_existing_experiment() {
 	local readonly origin="$KALDI_ROOT"/egs/sre08/v1/
-	for dir in sid steps utils; do
+	for dir in steps utils; do
 		if [ -e "$dir" ]; then 
 			if [ "$(readlink -- "$dir")" = "$origin"/$dir ]; then
 				echo "Symlink '$dir' exits and is correct. Skipping it."
