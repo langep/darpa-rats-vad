@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Author: pll2121
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly PARENT_DIR="$SCRIPT_DIR"/..
 

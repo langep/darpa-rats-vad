@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Author: pll2121
 set -euo pipefail
 
 #/ Usage: bash prepare_train.sh

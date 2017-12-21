@@ -13,6 +13,7 @@ This experiment is based of DARPA RATS corpus. Access has been granted by my emp
 - sid: copy from egs/sre08/v1/
 - steps: copy from egs/sre08/v1/
 - utils: egs/sre08/v1/
+- ./corpus-description.txt: contains the original corpus description
 
 
 ## Contribution
@@ -35,9 +36,14 @@ Segment training audio and prepare for experiment
 bash scripts/prepare_train.sh
 ```
 
-Create features and vad decisions for training
+Create features for training
+!Requires original data. Output provided.
 ```
 bash scripts/make_train_set_features.sh
+```
+
+Create vad decisions for training
+```
 bash scripts/make_train_set_vad_decisions.sh
 ```
 

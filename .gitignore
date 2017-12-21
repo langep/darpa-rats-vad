@@ -5,3 +5,5 @@ steps
 utils
 scores
 ground_truth
+compute_table_numbers.py
+table_numbers.txt

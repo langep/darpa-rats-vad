@@ -99,6 +99,8 @@ if [ $stage -le -1 ]; then
   done
 fi
 
+# Author: pll2121
+# modified ark:${vad_dir}/${gmm_name}_logprob.JOB.ark to t,ark:${vad_dir}/${gmm_name}_logprob.JOB.ark
 frame_likes=""
 if [ $stage -le 0 ]; then
   echo "$0: computing frame likelihoods"
@@ -112,6 +114,8 @@ if [ $stage -le 0 ]; then
       "$feats" t,ark:${vad_dir}/${gmm_name}_logprob.JOB.ark || exit 1;
   done
 
+  # Author: pll2121
+  # modified ark,scp:${vad_dir}/vad_gmm_${name}.JOB.ark,${vad_dir}/vad_gmm_${name}.JOB.scp to t,ark,scp:${vad_dir}/vad_gmm_${name}.JOB.ark,${vad_dir}/vad_gmm_${name}.JOB.scp
   echo "$0: computing VAD decisions from frame likelihoods"
   $cmd JOB=1:$nj ${log_dir}/log/make_vad_gmm_${name}.JOB.log \
     compute-vad-from-frame-likes --map=${map_config} --priors=$priors $frame_likes \
