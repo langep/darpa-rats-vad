@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Author: pll2121
 set -euo pipefail
 
 # Use clip_helper.sh instead of calling this file directly.
