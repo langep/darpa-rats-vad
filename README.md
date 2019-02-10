@@ -3,7 +3,7 @@
 The code can also be found in the github repository at [https://github.com/langep/darpa-rats-vad](https://github.com/langep/darpa-rats-vad).
 
 ## The original data
-This experiment is based of DARPA RATS corpus. Access has been granted by my employer but I canont share the data. I have shared the extracted features and indicated below which scripts can be run with the submission.
+This experiment is based of DARPA RATS corpus. Access has been granted by my employer but I cannot share the data. I have shared the extracted features and indicated below which scripts can be run with the code.
 
 ## Directory structre
 - conf/: feature extraction related configuration
